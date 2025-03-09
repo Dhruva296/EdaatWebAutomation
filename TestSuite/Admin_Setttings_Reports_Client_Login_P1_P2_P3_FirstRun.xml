@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test-class Suite" parallel="tests" thread-count="6">
+	
+<!-- Scenario 1-->
+	<test name="Test-class test 1">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+		<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddIndividualClient"/>
+		<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSearchIndividualClient"/>
+		<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminDeleteIndividualClient"/>
+         <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddInvoiceCorporateClient"/>
+        <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddInvoiceIndividualClient"/>
+   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsCorporateClientReport"/>
+
+			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminGridViewIndividualClient"/>
+			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminToggleIndividualClient"/>
+			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminViewInvoiceIndividualClient"/>
+	         <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddCorporateClient"/>
+	      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminToggleCorporateClient"/>
+     <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminImportClientdataType"/>
+
+       
+		</classes>
+	</test>
+
+<!-- Scenario 2-->
+	<test name="Test-class test 2">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsProductManagementEditProduct"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminViewInvoiceCorporateClient"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddInvoicetemplate"/>
+      	<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsProductManagementAddInActivate"/>
+	    <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsInvoicesTemplatesDelete"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsInvoicesGridview"/>
+          <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsBillersTrasanctions"/> 
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSearchCorporateClient"/>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsProductManagementSearch"/> 
+
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsTermsManagementAddTermandDeactivate"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsViewTermsManagements"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsTermMgmDeleteTerm"/> 
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsTermsManagementsGridView"/> 
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsContentMgmUploadBulkData"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsBillsCancellation"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsPaidOutsideEDAATBills"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientLoginVerifyForgotPwd"/>
+
+			
+  	</classes>
+	</test>	
+<!-- Scenario 3-->
+	<test name="Test-class test 3">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+ <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsProductManagementAddProdActivate"/>
+     <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsInvoicesTemplatesVariable"/>
+	  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsInvoicesTemplatesView"/>
+    <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsPricingListSearch"/>
+	 <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminClientsImportBulkData"/>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsDiscountManagementStatusToggle"/>
+   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsDiscountMgmSearch"/> 
+
+         <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsSuperBillerReport"/>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsCorporateBillersReport"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsBillerMonitoringReport"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsIndividualClientReport"/>
+        <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsDiscountMgmAddDeacitvate"/> 		
+              <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientLogin"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientLoginChangeLang"/>
+  	</classes>
+	</test>	
+	<!-- Scenario 4-->
+	<test name="Test-class test 4">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientInvalidLogin"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsBlockedIndividualClientReports"/>
+    <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsPricingListDelete"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsSubBillersReport"/> 
+        <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsViewPriceDetails"/>
+  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsAddPriceList"/>
+   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminDeleteDiscount"/>
+
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminDownloadIDIndividualClient"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivableReportsVerifyClientInvoiceReport"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivableReportIndividualClientReport"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsReceviablelsCorporateClientReport"/> 
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceiReportsOverDueBills"/>   
+        <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsOutsideEdaatPaymentsReport"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsTermsManagementSearch"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsTermsMngActive"/>
+
+
+  	</classes>
+	</test>	
+	<!-- Scenario 5-->
+	<test name="Test-class test 5">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsTicketSizeReport"/> 
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingsDiscountMgmAddAcitvate"/>
+			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminUpdateIndividualClient"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminGridViewCorporateClient"/>
+	  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSettingGridviewPriceList"/> 
+	         <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientValidateLinksInFooter"/>
+          <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsBlockedCorporateClientReports"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsClientsTypeReport"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportClientAccountStatement"/>
+
+	   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminUpdateCorporateClient"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminExportCorporateClient"/>
+	   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminDeleteCorporateClient"/>
+  			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminExportIndividualClient"/>
+  			<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsReceivablesReportsSubBillersReport"/>
+       <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReportsPaymentTransactionAndOperationFeesReport"/>
+<class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceiReportsSadedPayment"/>
+      <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientLoginEdaatLogo"/>	 
+     <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminClientsImportClientDownloadBulkSheet"/>	         
+
+  	</classes>
+	</test>	
+	
+</suite>
