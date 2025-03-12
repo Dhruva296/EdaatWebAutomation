@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test-class Suite" parallel="tests" thread-count="8">
+	
+<!-- Scenario 1-->
+	<test name="Test-class test 1">
+		<parameter name="test-name" value="test-method" />
+		<classes>
+		  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesSaveBills"/>
+		  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminLogin"/>
+	      <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientSignUp"/>
+	      <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesInvoiceDetailsBtn"/>
+		  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesExportContact"/>
+		  <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminMyAccountPushNotificationSettings"/>
+
+		</classes>
+	</test>
+	
+<!-- Scenario 2-->
+	<test name="Test-class test 2">
+		<parameter name="test-name" value="test-method" />
+		<classes>  
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminInvalidLogin"/>
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesIDPrintBills"/>
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSubBillersCorporateSubbillersGridView"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesPaidOutsideEdaatSearch"/> 
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientSignupvalidateValidationMessagewithInvalidData"/>
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesExportBills"/>
+
+		</classes>
+	</test>
+	
+	<!-- Scenario 3-->
+	<test name="Test-class test 3">
+		<parameter name="test-name" value="test-method" />
+		<classes>  
+
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesBalanceDetailsUpdateClientInfo"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesPaidOutSideEdaatGridView"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAddCorpoSubBillerFeeDeductiononProduct"/>   
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSubBillersCorporateSubbillersSearch"/>  
+		   <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesBalanceDetailsSearch"/>    
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminSubBillersCorporateSubbillersadd"/>
+          
+
+		</classes>
+	</test>
+	
+	<!-- Scenario 4-->
+	<test name="Test-class test 4">
+		<parameter name="test-name" value="test-method" />
+		<classes>  
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminLoginVerifyForgotPwd"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminLoginChangeLanguage"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminLoginEdaatLogo"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminLoginFooterLinks"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminPayablesIncomingBillsGridView"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminPayablesIncomingBillsSearch"/>
+           <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminReceivablesExportBillsCreateInvoiceVerifyMinimumAmount"/>
+		</classes>
+	</test>
+	
+	<!-- Scenario 5-->
+	<test name="Test-class test 5">
+		<parameter name="test-name" value="test-method" />
+		<classes>  
+         <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientMyAccountNewpwdNotMatchConfirpwd"/>
+		 <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminMyAccountSendEmailToggel"/>
+		 <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminMyAccountNotificationVerifySMSToggle"/>
+         <class name="com.azmqalabs.edaattestautomation.testscripts.admin.AdminAPIDocumentExport"/>
+         <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientMyAccountUpdateClientLoginInfoSave"/>
+         <class name="com.azmqalabs.edaattestautomation.testscripts.Client.ClientMyAccUpdateClientLoginInfoAndClose"/>
+
+		</classes>
+	</test>
+	
+		
+	
+</suite>

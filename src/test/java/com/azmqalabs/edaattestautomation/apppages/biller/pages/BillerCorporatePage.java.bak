@@ -1,0 +1,894 @@
+/**
+* Test Script Name  				 : N/A
+* Objective     					 : To verify Corporate clients related functions.
+* Version      						 : 1.0
+* Author       						 : Kathirvelu M
+* Created Date 			      		 : 16/05/2023
+* Last Updated on					 : N/A
+* Updated By   			 			 : Basavaraj Mudnur
+* Pre-Conditions					 : N/A
+* Epic Details						 : N/A
+* User Story Details				 : N/A
+**/
+package com.azmqalabs.edaattestautomation.apppages.biller.pages;
+
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.azmqalabs.edaattestautomation.apppages.GlobalConstant;
+import com.azmqalabs.edaattestautomation.apppages.masterpages.BasePage;
+import com.azmqalabs.edaattestautomation.common.uielement.fieldDecorator;
+import com.azmqalabs.edaattestautomation.objectrepository.EdaatOR;
+import com.azmqalabs.edaattestautomation.common.Log;
+
+
+
+public class BillerCorporatePage extends BasePage
+{
+
+	public BillerCorporatePage(WebDriver driver,ExtentTest test)
+	{
+		 this.driver=driver;
+		 this.test=test;
+		 
+		 PageFactory.initElements(new fieldDecorator(driver,test), this);
+	}  
+	
+
+	@FindBy(xpath = EdaatOR.Biller_Corporate)
+	public WebElement Client;
+		
+	    
+	    public boolean Exists(){
+	    	return super.Exists(Client); 
+		}
+
+	//Function Summary : Method to create Corporate client 
+	//Parameter Summary: CorporateName,CRNumber,PersonName,PersonID,MobileNo,Email,ClientRefno.
+	public void AddCorporateclient(String CorporateName,String CRNumber,String PersonName,String PersonID,String MobileNo,String Email,String ClientRefno,Log Log){
+        	AddCorpclient(CorporateName,CRNumber,PersonName,PersonID,MobileNo,Email,ClientRefno,Log);
+    	}
+	public void Action(String Action,Log Log){
+	    try{
+	    	NavigateToCorporateClientsList(Log);
+	        if(Action.equalsIgnoreCase("View")) {                
+	            if(CheckElementExists(EdaatOR.Biller_Corporateclient_tbl)==true) {
+	                Thread.sleep(2000);
+	                WebClear(EdaatOR.Biller_Corporateclient_search);
+	                WebEdit(EdaatOR.Biller_Corporateclient_search,"corporate");                    
+	                WebClick(EdaatOR.Biller_Individualclient_Search);
+	                Thread.sleep(1000);
+	                WebClick(EdaatOR.Biller_Individualclient_Searchname);
+	                Thread.sleep(1000);
+	                switchTonextwindow();
+	                scrollDowntillend(driver);
+	                if (ExistsCheck(EdaatOR.Biller_Individualclient_Back)) {
+		                WebClick(EdaatOR.Biller_Individualclient_Back);
+	                  	Log.ReportEvent("PASS", " Grid View is Successful");
+	                    }
+	                    else {
+	                    	Log.ReportEvent("FAIL", " Grid View is not Successful");
+	                    	takeScreenShot();
+	                    	driver.quit();
+	                    	Assert.fail();
+	                    }
+	            }               
+	        }else if(Action.equalsIgnoreCase("Deactivate")) {
+	            WebEdit(EdaatOR.Biller_Corporateclient_search,"corporate");                    
+	            WebClick(EdaatOR.Biller_Corporateclient_search);
+	            Thread.sleep(2000);
+	            WebClickUsingJS(EdaatOR.Biller_Individualclient_Deactivate);
+	            Thread.sleep(2000);
+	            WebClick(EdaatOR.Biller_Individualclient_button);
+	            Thread.sleep(2000);
+	            WebClickUsingJS(EdaatOR.Biller_Individualclient_Deactivate);
+	            Thread.sleep(2000);
+	            WebClick(EdaatOR.Biller_Individualclient_button);
+	            if(ExistsCheck(EdaatOR.Biller_Individualclient_button) || ExistsCheck(EdaatOR.Biller_Individualclient_Deactivate) ) {
+	              	Log.ReportEvent("PASS", " Activate/Deactivate Client is Successful");
+	                }
+	                else {
+	                  	Log.ReportEvent("FAIL", " Activate/Deactivate Client is not Successful");
+	                  	takeScreenShot();
+	                  	driver.quit();
+                    	Assert.fail();
+					}
+	        }else if(Action.equalsIgnoreCase("Excel")) {
+	        	if(ExistsCheck(EdaatOR.Biller_Individualclient_export)) {
+	            WebClick(EdaatOR.Biller_Individualclient_export);
+	            Thread.sleep(2000);    
+	            Log.ReportEvent("PASS", " Click on Export to Excel is Successful");
+            	}
+            	else {
+                  	Log.ReportEvent("FAIL", " Click on Export to Excel is not Successful");
+                  	takeScreenShot();
+                  	driver.quit();
+                	Assert.fail();
+            	}
+
+	        }
+	    }
+	    catch(Exception e){
+	    		Log.ReportEvent("FAIL","Navigate to 'Corporate Clients List' Page is not Loaded Successfully");
+	    		takeScreenShot();
+	    		driver.quit();
+            	Assert.fail();
+	    }
+	}
+	
+	//Function Summary : Method to Search "corporate client" 
+	//Parameter Summary: ClientRefno.
+	public boolean BillerSearchCorporateclient(String ClientRefno,String CorporateName, String CRNumber,Log log){
+		boolean existsElement = false;
+		try{
+				WebEdit(EdaatOR.Biller_Individualclient_CustomerRefNumber,ClientRefno);
+            	Thread.sleep(1000);
+            	WebClick(EdaatOR.Biller_Individualclient_Search);
+            	Thread.sleep(3000);
+            	if(CheckElementExists("//td[text()='"+ClientRefno+"']")==true) {
+            		existsElement=true;
+            		log.ReportEvent("PASS", "Corporate Client Search is Successful");
+    		    }
+            	else {
+            		log.ReportEvent("FAIL", "Corporate Client Search is not Successful");
+            		this.takeScreenShot();
+            		driver.quit();
+            		Assert.fail();
+            	}
+    	    
+        }catch(Exception e){
+        	log.ReportEvent("FAIL", "Corporate Client Search is not Successful");
+    		this.takeScreenShot();
+    		driver.quit();
+    		Assert.fail();
+        }
+        return existsElement;
+    }
+public void TableGridview(String CorporateName){
+	    try{
+	    	WebClickUsingJS(EdaatOR.Biller_Add_Companyclient);
+        	Thread.sleep(1000);    
+        	if(CheckElementExists(EdaatOR.Biller_Corporateclient_tbl)==true) {
+    			Thread.sleep(2000);
+    			WebClear(EdaatOR.Biller_Corporateclient_search);
+    			WebEdit(EdaatOR.Biller_Corporateclient_search,CorporateName);        			
+    			WebClick(EdaatOR.Biller_Individualclient_Search);
+    			Thread.sleep(1000);
+    			WebClick(EdaatOR.Biller_Individualclient_Searchname);
+    			Thread.sleep(1000);
+    			switchTonextwindow();
+    			scrollDowntillend(driver);
+    			this.takeScreenShot();
+    			WebClick(EdaatOR.Biller_Individualclient_Back);
+    			test.log(Status.PASS,"Corporate Client Table Exists" + driver.getTitle() +" * Corporatee Client Table Exists PASS * " );
+    		}       		
+	    	else {
+	    		test.log(Status.FAIL,"Corporate Client Table Not Exists" + driver.getTitle() +" * Corporate Client Table Not Exists FAIL * " );
+	    	}
+	    }catch(Exception e){
+	    	test.log(Status.FAIL,"Table View Corporate client" + driver.getTitle() +" * Table View Corporate client FAIL * " );
+	        this.takeScreenShot();
+	    }
+	}
+
+public void ActivateDactivate(String CorporateName){
+    try{
+    	WebClickUsingJS(EdaatOR.Biller_Add_Companyclient);
+    	Thread.sleep(1000);  
+    	if(CheckElementClickable(EdaatOR.Biller_Corporateclient_search)==true) {
+    		WebEdit(EdaatOR.Biller_Corporateclient_search,CorporateName);        			
+			 WebClickUsingJS(EdaatOR.Biller_Product_SeachBtn);
+			Thread.sleep(2000);
+			WebClickUsingJS(EdaatOR.Biller_Individualclient_Deactivate);
+			Thread.sleep(3000);
+			WebClick(EdaatOR.Biller_Individualclient_button);
+			Thread.sleep(2000);
+			WebClickUsingJS(EdaatOR.Biller_Individualclient_Deactivate);
+			Thread.sleep(2000);
+			this.takeScreenShot();
+			WebClick(EdaatOR.Biller_Individualclient_button);
+			
+			test.log(Status.PASS,"Corporate Client Deactivate/Activate Done" + driver.getTitle() +" * Corporate Client Deactivate/Activate Done PASS * " );
+    	}	   		
+    	else {
+    		test.log(Status.FAIL,"Corporate Client Deactivate/Activate Not Done" + driver.getTitle() +" * Corporate Client Deactivate/Activate Not Done FAIL * " );
+    	}
+    }catch(Exception e){
+    	test.log(Status.FAIL,"Corporate Client Deactivate/Activate Not Done" + driver.getTitle() +" * Table View Corporate client Not Done * " );
+        this.takeScreenShot();
+    }
+}
+
+public void Export(){
+    try{
+    	WebClickUsingJS(EdaatOR.Biller_Add_Companyclient);
+    	Thread.sleep(1000);  
+    	if(CheckElementClickable(EdaatOR.Biller_Corporateclient_search)==true) {
+    		WebClick(EdaatOR.Biller_Individualclient_export);
+			Thread.sleep(2000);    
+			this.takeScreenShot();
+			test.log(Status.PASS,"Export Done" + driver.getTitle() +" * Export Done PASS * " );
+    	}	   		
+    	else {
+    		test.log(Status.FAIL,"Export Not Done" + driver.getTitle() +" * Export Not Done FAIL * " );
+    	}
+    }catch(Exception e){
+    	test.log(Status.FAIL,"Export Not Done" + driver.getTitle() +" * Export Not Done * " );
+        this.takeScreenShot();
+    }
+}
+	
+	//Function Summary : Navigate to "Corporate client list" and search for corporate client  
+	//Parameter Summary: CorporateName,CRNumber,Corporateno.
+	public boolean BillerSearchCorporateclientall(String CRNumber,String CorporateName,String Corporateno,Log Log){
+		boolean existsElement = false;
+		try{
+				NavigateToCorporateClientsList(Log);
+	        	WebEdit(EdaatOR.Biller_Corporateclient_Name,CorporateName);
+				Thread.sleep(1000);
+				WebEdit(EdaatOR.Biller_Corporateclient_Rno,CRNumber);
+				Thread.sleep(1000);
+				WebEdit(EdaatOR.Biller_Individualclient_CustomerRefNumber,Corporateno);
+				Thread.sleep(2000);
+            	WebClick(EdaatOR.Biller_Individualclient_Search);
+				Thread.sleep(2000);
+            	existsElement=ExistsCheck("//td[text()='"+CRNumber+"']");
+            	if(existsElement==true) {
+    	        	Log.ReportEvent("PASS", "Corporate Client Search is Successful");
+            	}
+            	else {
+    	        	Log.ReportEvent("FAIL", "Corporate Client Search is not Successful");
+	                this.takeScreenShot();
+	                driver.quit();
+	                Assert.fail();
+
+            	}
+				Thread.sleep(1000);
+           	
+        }catch(Exception e){
+        	Log.ReportEvent("FAIL", "Corporate Client Search is not Successful");
+            this.takeScreenShot();
+            driver.quit();
+            Assert.fail();
+        }
+        return existsElement;
+    }
+	
+	public void NavigateToCorporateClientsList(Log log) throws Exception {
+		try {
+		WebClickUsingJS(EdaatOR.Biller_Add_Companyclient);
+    	Thread.sleep(1000);
+    	if(getText(EdaatOR.Biller_IndividualORCorporateclientList_Page).equals("Corporate Clients List")) {
+		log.ReportEvent("PASS", "'Corporate Clients List' Page is Loaded Successfully");
+    	}
+		else {
+			log.ReportEvent("FAIL", "'Corporate Clients List' Page is not Loaded Successfully");
+			takeScreenShot();
+			driver.quit();
+			Assert.fail();
+    	}
+		}
+		catch (Exception e) {
+			log.ReportEvent("FAIL", "Navigate to 'Corporate Clients List' Page is not Loaded Successfully");
+			takeScreenShot();		
+			driver.quit();
+			Assert.fail();
+		}
+	}
+	
+	public void NavigateToAddCorporateClients(Log log) throws Exception {
+		try {
+		WebClickUsingJS(EdaatOR.Biller_Add_Individualclient_Button);
+    	Thread.sleep(1000);
+    	if(getText(EdaatOR.Biller_AddIndividualclientORCorporateClient_Page).equals("Add Corporate Clients")) {
+    		log.ReportEvent("PASS", "'Add Corporate Clients' Page is Loaded Successfully");
+    	}
+		else {
+    		log.ReportEvent("FAIL", "'Add Corporate Clients' Page is not Loaded Successfully");
+			takeScreenShot();
+			driver.quit();
+			Assert.fail();
+}
+		}
+		catch (Exception e) {
+			log.ReportEvent("FAIL", "'Add Corporate Clients' Page is not Loaded Successfully");
+			takeScreenShot();
+		    driver.quit();	
+			Assert.fail();
+		}
+	}
+	
+	//Function Summary : "Navigate to  add corporate clients" page and enter all details and Create corporate client 
+	//Parameter Summary: CorporateName,CRNumber,PersonName,PersonID,MobileNo,Email,ClientRefno.
+	public void AddCorpclient(String CorporateName,String CRNumber,String PersonName,String PersonID,String MobileNo,String Email,String ClientRefno,Log log){
+        try{
+        		NavigateToCorporateClientsList(log);
+        		NavigateToAddCorporateClients(log);
+            	WebEdit(EdaatOR.Biller_Corporateclient_name,CorporateName);
+            	WebEdit(EdaatOR.Biller_Corporateclient_Rno,CRNumber);
+            	WebClick(EdaatOR.Biller_Corporateclient_lang);
+            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner,PersonName);
+            	WebEdit(EdaatOR.Biller_Corporateclient_commissionerID,PersonID);
+            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Email,Email);
+            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Mobile,MobileNo);
+            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Crno,ClientRefno);	
+            	Thread.sleep(1000);            	
+            	Thread.sleep(2000);   
+            	WebClickUsingJS(EdaatOR.Biller_Individualclient_Add);
+            	if(getText(EdaatOR.Biller_AlertMsg).equals("The Corporate With The Registration Number Entered Is Already Added")
+            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_CRNumberField_Error).equals("Please enter a 10-digit number")
+            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_AuthorizedPersonIDField_Error).equals("Please enter a 10-digit number")
+            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_MobileNoField_Error).equals("The mobile number entered is incorrect")
+            	|| getText(EdaatOR.Biller_AddOrEditCorpoclient_EmailField_Error).equals("Invalid email")) {
+            		log.ReportEvent("FAIL", "Corporate Client is not Added Successfully");
+            		this.takeScreenShot();
+            		driver.quit();
+            		Assert.fail();
+            	}
+            	else {
+            		System.out.println("Corporate Client created");
+    	        	log.ReportEvent("PASS", "Corporate Client is Added Successfully");
+            		BillerSearchCorporateclient(ClientRefno, CorporateName,CRNumber,log);
+            	}
+            	
+        }catch(Exception e){
+        	log.ReportEvent("FAIL", "Corporate Client is not Added Successfully");
+    		this.takeScreenShot();
+    		driver.quit();
+    		Assert.fail();
+        	 
+        }
+	}
+	
+	//Function Summary : "Navigate to  add corporate clients" page and enter all details and Create corporate client 
+		//Parameter Summary: CorporateName,CRNumber,PersonName,PersonID,MobileNo,Email,ClientRefno.
+		public void AddCorpclientDelete(String CorporateName,String CRNumber,String PersonName,String PersonID,String MobileNo,String Email,String ClientRefno,String ResonforDelete, Log log){
+			try{
+	        		NavigateToCorporateClientsList(log);
+	        		NavigateToAddCorporateClients(log);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_name,CorporateName);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_Rno,CRNumber);
+	            	WebClick(EdaatOR.Biller_Corporateclient_lang);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner,PersonName);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_commissionerID,PersonID);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Email,Email);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Mobile,MobileNo);
+	            	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Crno,ClientRefno);	
+	            	Thread.sleep(1000);            	
+	            	Thread.sleep(2000);   
+	            	WebClickUsingJS(EdaatOR.Biller_Individualclient_Add);
+	            	if(getText(EdaatOR.Biller_RegistrationNumber_allertError).equals("The Corporate With The Registration Number Entered Is Already Added")
+	            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_CRNumberField_Error).equals("Please enter a 10-digit number")
+	            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_AuthorizedPersonIDField_Error).equals("Please enter a 10-digit number")
+	            	|| getText(EdaatOR.Biller_AddOREditCorpoclient_MobileNoField_Error).equals("The mobile number entered is incorrect")
+	            	|| getText(EdaatOR.Biller_AddOrEditCorpoclient_EmailField_Error).equals("Invalid email")) {
+	            		log.ReportEvent("FAIL", "Corporate Client is not Added Successfully");
+	            		this.takeScreenShot();
+	            		driver.quit();
+	            		Assert.fail();
+	            	}
+	            	else {
+	            		Thread.sleep(1000);
+	            		if(ExistsCheck(EdaatOR.Biller_IndividualORCorporateclientList_Page)) {
+		    	        	log.ReportEvent("PASS", "Corporate Client is Added Successfully");
+		            		BillerSearchCorporateclient(ClientRefno, CorporateName,CRNumber,log);
+		            		boolean Ele1=DeleteCorpClient(ClientRefno,ResonforDelete,log);
+		    	        	if(Ele1){
+		    	        	log.ReportEvent("PASS", "Delete Corporate Client is Successful");}
+		    	        	else {
+		    		        	log.ReportEvent("FAIL", "Delete Corporate Client is not Successful");
+		                    this.takeScreenShot();
+		            		driver.quit();
+		            		Assert.fail();
+		    	        	}	
+	            		}
+	            		else {
+	            			log.ReportEvent("FAIL", "Corporate Client is not Added Successfully");
+		            		this.takeScreenShot();
+		            		driver.quit();
+		            		Assert.fail();
+						}
+	            	}
+	        }catch(Exception e){
+	        		log.ReportEvent("FAIL", "Delete Corporate Client is not Successful");
+                    this.takeScreenShot();
+            		driver.quit();
+            		Assert.fail();
+	        }
+		}
+	
+	//Function Summary : Method to delete corporate client 
+	//Parameter Summary: CorporateName, CRNumber, PersonName, PersonID, MobileNo, Email,ClientRefno,ResonforDelete 
+	public void DeleteCorporateClient(String CorporateName,String CRNumber,String PersonName,String PersonID,String MobileNo,String Email,String ClientRefno, String ResonforDelete,Log Log){
+			AddCorpclientDelete(CorporateName, CRNumber, PersonName, PersonID, MobileNo, Email,ClientRefno,ResonforDelete ,Log );
+	   }
+	//Function Summary : Method to delete corporate client and check "deletedcheckbox".
+	//Parameter Summary: ClientRefno,ResonforDelete,Delete	
+	public boolean DeleteCorpClient(String ClientRefno,String ResonforDelete,Log log){
+		boolean existsNID = false;
+		try{
+	    	if(getText("//td[text()='"+ClientRefno+"']").equals(ClientRefno)){
+	    	selectDropdownValue_PartialText(EdaatOR.Biller_Invoice_Delete,"Delete");
+	    	Thread.sleep(2000);
+	    	WebClick(EdaatOR.Biller_Invoice_Reasontxt);
+	    	Thread.sleep(1000);
+	    	WebClick("//ul/li[contains(text(),'"+ResonforDelete+"')]");
+	    	Thread.sleep(3000);
+	    	WebClick(EdaatOR.Biller_Invoice_Deletebtn);
+	    	Thread.sleep(2000);
+	    	WebEdit(EdaatOR.Biller_Individualclient_CustomerRefNumber,ClientRefno);
+	    	Thread.sleep(2000);
+	    	WebClick(EdaatOR.Biller_Invoice_Deletechkbox);
+	    	Thread.sleep(2000);
+	    	WebClickUsingJS(EdaatOR.Biller_Individualclient_Search);
+	    	Thread.sleep(2000);
+	    	if(CheckElementExists("//td[text()='"+ClientRefno+"']")==true) {
+		    	existsNID=true;
+		    }
+	    	}
+	    	    	
+	    }catch (Exception e) {
+	    	log.ReportEvent("FAIL", "Delete Corporate Client is not Successful");
+            this.takeScreenShot();
+    		driver.quit();
+    		Assert.fail();
+	    }
+		return existsNID;
+	    }
+	
+	//Function Summary : Method to Update the details of corporate client
+	//Parameter Summary: CorporateName,CRNumber,PersonName,PersonID,ClientRefno,MobileNo,Email
+	public void UpdateCorporateClient(String CorporateName,String CRNumber,String PersonName,String PersonID,String ClientRefno,String MobileNo,String Email,Log Log){    		
+	        	UpdateCorpClient(CorporateName, PersonName, PersonID, ClientRefno,MobileNo, Email,Log);
+	}
+		
+	//Function Summary : Navigate to "Edit Corporate Client Data"page and update the details of  corporate client.
+	//Parameter Summary: Edit,CorporateName,PersonName,PersonID,MobileNo,Email,ClientRefno
+	public boolean UpdateCorpClient(String CorporateName,String PersonName,String PersonID,String ClientRefno,String MobileNo,String Email,Log log){
+		boolean existsNID = false;
+		try{
+	    	NavigateToCorporateClientsList(log);
+	    	selectDropdownValue_PartialText(EdaatOR.Biller_Invoice_Delete,"Edit");
+	    	Thread.sleep(2000);
+	    	switchTonextwindow();    	
+	        Thread.sleep(1000);	
+	        if (getText(EdaatOR.Biller_EditCorporateClientData_Page).equals("Edit Corporates Client Data")) {
+	    		log.ReportEvent("PASS","'Edit Corporate Client Data' Page is Loaded Successfully");
+	    	WebClear(EdaatOR.Biller_Corporateclient_name);
+	        Thread.sleep(1000);	
+	    	WebEdit(EdaatOR.Biller_Corporateclient_name,CorporateName);
+	    	WebClear(EdaatOR.Biller_Corporateclient_commissioner);
+  	        Thread.sleep(1000);	
+        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner,PersonName);
+	        Thread.sleep(1000);	
+	    	WebClear(EdaatOR.Biller_Corporateclient_commissionerID);
+        	WebEdit(EdaatOR.Biller_Corporateclient_commissionerID,PersonID);
+        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Mobile);
+        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Mobile,MobileNo);
+	        Thread.sleep(1000);	
+        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Email);
+	        Thread.sleep(1000);	
+        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Email,Email);
+	        Thread.sleep(1000);	
+        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Crno);
+	        Thread.sleep(1000);	
+        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Crno,ClientRefno);
+        	Thread.sleep(2000);
+        	WebClickUsingJS(EdaatOR.Biller_Corporateclient_Save);
+	    	Thread.sleep(2000);
+	       if(getText(EdaatOR.Biller_AddOREditCorpoclient_CRNumberField_Error).equals("Please enter a 10-digit number")
+                	|| getText(EdaatOR.Biller_AddOREditCorpoclient_AuthorizedPersonIDField_Error).equals("Please enter a 10-digit number")
+                	|| getText(EdaatOR.Biller_AddOREditCorpoclient_MobileNoField_Error).equals("The mobile number entered is incorrect")
+                	|| getText(EdaatOR.Biller_AddOrEditCorpoclient_EmailField_Error).equals("Invalid email")) {
+            	log.ReportEvent("FAIL", " Upadate Corporate Client is not Successful");
+            	takeScreenShot();
+            	driver.quit();
+            	Assert.fail();
+        	}
+        	else {
+        		if(CheckElementExists("//span[text()='"+CorporateName+"']")==true) {
+    		    	existsNID=true;
+    		    	Thread.sleep(2000);
+    		    }  
+    		}
+            	log.ReportEvent("PASS", " Upadate Corporate Client is Successful");
+    	    }
+    	
+	    	else {
+	    		log.ReportEvent("FAIL","'Edit Corporate client data' Page is not Loaded Successfully");
+            	takeScreenShot();
+	    		driver.quit();
+            	Assert.fail();
+	    	}	
+	    }catch (Exception e) {
+	    	log.ReportEvent("FAIL", " Upadate Corporate Client is not Successful");
+        	takeScreenShot();
+        	driver.quit();
+        	Assert.fail();
+		}
+		return existsNID;
+	    }
+	
+	//Function Summary : Method to select "subbiller" and select "Name or register number" of subbiller from dropdowns  
+	//Parameter Summary: SubBiller,FixedPrice,FixedPercentage.
+	public void selectSubbiller(String drop,Map<Object,Object> testdatamap) throws Exception {
+		Thread.sleep(500);
+		WebClickUsingJS(EdaatOR.Biller_Invoice_Subbill);
+		SelectInvoiceTemplate(drop,testdatamap.get("SubBiller").toString());
+		waitForPageToLoad();
+		EnterFixedPrice(testdatamap.get("FixedPrice").toString());
+		EnterPercentage(testdatamap.get("FixedPercentage").toString());
+		
+	}
+	
+	//Function Summary : Method to select "Name or Register number" of subbiller from dropdown.  
+	//Parameter Summary: N/A
+	public void SelectInvoiceTemplate(String sel, String Tem) throws InterruptedException {
+		Thread.sleep(500);
+		selectDropdownValue_PartialText(sel, Tem);
+	}
+	
+	//Function Summary : Method to click on "add product" button in "create invoice"page  
+	//Parameter Summary: N/A
+	public void ClickOnProductBtn() throws Exception {
+		WebClick(EdaatOR.Biller_Invoice_AddProductBtn);
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to select "product" from dropdown.  
+	//Parameter Summary: N/A
+	public void SelectProduct(String Cust) { 
+		WebSelect(EdaatOR.Biller_Invoice_ProductID,Cust);
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to click on "add" button in "add product"popup.  
+	//Parameter Summary: N/A
+	public void ClickOnProductAddBtn() throws Exception {
+		WebClick(EdaatOR.Biller_Invoice_AddBtn);
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to enter"Invoice Due Date" in "Create invoice"page 
+	//Parameter Summary: N/A
+	public void EnterIssuedDate() throws Exception {
+		WebClick(EdaatOR.Biller_Invoice_DateInvoc);
+		Thread.sleep(800);
+		WebClick(EdaatOR.Biller_RegistDate_exprDate);
+	}
+	public void SelectDuration(String dur) {
+		WebSelect(EdaatOR.Biller_Invoice_DurationID,dur);
+		waitForPageToLoad();
+	}
+
+	public void EnterMinPrice(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_MinTax,Price);
+		waitForPageToLoad();
+	}
+	public void EnterFixedPrice(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_Fixed,Price);
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to click on "Create and save" button in "Create Invoice"page. 
+	//Parameter Summary: N/A
+	public void ClickOnSaveBtn() {
+		WebClickUsingJS(EdaatOR.Biller_Invoice_Create);
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to click on "Create and Export" button in "Create Invoice"page. 
+	//Parameter Summary: N/A
+	public void ClickOnExportBtn() {
+		WebClickUsingJS(EdaatOR.Biller_Invoice_ExportButton);
+		waitForPageToLoad();
+	}
+
+	public void EnterCondition(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_Conditon,Price);
+		waitForPageToLoad();
+	}
+	public void EnterPercentage(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_Percentage,Price);
+		waitForPageToLoad();
+	}
+	public void ClickOnCreateInvoiceBtn() {
+		WebClickUsingJS(EdaatOR.Biller_Invoice_CreateReapeat);
+		waitForPageToLoad();
+	}
+	public void EnterDescriptionSaved(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_Descript,Price);
+		waitForPageToLoad();
+	}
+
+	public void EnterDescriptionOne(String Price) throws Exception {
+		WebEdit(EdaatOR.Biller_Invoice_Descript1,Price);
+		waitForPageToLoad();
+	}
+	//Function Summary : Method to select "Invoice Template" from dropdown. 
+	//Parameter Summary: N/A
+	public void WebSelectByVisibleText(String sEleXpath, String sText) {
+		try {
+			Select select = new Select(driver.findElement(By.xpath(sEleXpath)));
+			select.selectByVisibleText(sText);
+			Thread.sleep(500);	
+			waitForPageToLoad();
+			
+		} catch (Exception e) {
+			// Code to reset implicit wait and select value and then reset implicit wait
+			Select select1 = new Select(driver.findElement(By.xpath(sEleXpath)));
+			select1.selectByVisibleText(sText);
+			waitForPageToLoad();
+			test.log(Status.INFO, "WebSelectByVisibleText - Not Found");
+		}
+	}
+	public void selectTemplate(String drop,Map<Object,Object> testdatamap) throws Exception {
+
+		Thread.sleep(500);	
+		waitForPageToLoad();
+		
+		waitForPageToLoad();
+	}
+	
+	//Function Summary : Method to add "product" in "add product"popup.
+	//Parameter Summary: ProductName.
+	public void addProductDetails(Map<Object,Object> testdatamap) throws Exception {
+		ClickOnProductBtn();
+		Thread.sleep(1000);
+		SelectProduct(testdatamap.get("ProductName").toString());
+		Thread.sleep(2000);
+		//EnterProductPrice(testdatamap.get("ProductPrice").toString());
+		ClickOnProductAddBtn();
+		Thread.sleep(2000);
+	}
+	
+	//Function Summary : Method enter "Invoice Due Date" in "Create invoice"page
+	//Parameter Summary: N/A
+	public void enterInvoicDetails(Map<Object,Object> testdatamap) throws Exception {
+		EnterIssuedDate();
+//		SelectDuration(testdatamap.get("Duration").toString());
+//		EnterMinPrice(testdatamap.get("MinPrice").toString());
+//		EnterCondition(testdatamap.get("InvoiceCondition").toString());
+//		ClickOnCreateInvoiceBtn();
+		Thread.sleep(2000);
+	}
+	//Function Summary : Method to click on "Create and save" or "Create and Export"button in "create invoice" page
+	//Parameter Summary: InvoiceType,Save,Export.
+	public void enterInvoiceCaseType(Map<Object,Object> testdatamap) throws Exception {
+//		EnterDescriptionSaved(testdatamap.get("Description").toString());
+//		EnterDescriptionOne(testdatamap.get("Description").toString());
+		String iType=testdatamap.get("InvoiceType").toString();
+		if(iType.equalsIgnoreCase("Save")) {
+			ClickOnSaveBtn();
+		}
+		else if(iType.equalsIgnoreCase("Export")){
+			ClickOnExportBtn();
+		}
+		Thread.sleep(2000);
+	}
+
+	//Function Summary : Method to get the "count of the invoices" in the "Grid view" 
+	//Parameter Summary: N/A
+	public int getInvoiceCountAdd() {
+		List<WebElement> invoice = driver.findElements(By.xpath(EdaatOR.Biller_Invoice_AfteraddInvoice));
+		waitForPageToLoad();
+		int count =invoice.size();
+		return count;
+	}
+    
+	//Function Summary : Method to create Corporate client invoice  
+	//Parameter Summary: Create Invoice,InvoiceType,Template Name.
+	public void CreateCorporateClientInvoice(Map<Object,Object> testdatamap,Log Log) throws Exception {
+		try {
+			NavigateToCorporateClientsList(Log);
+			selectDropdownValue_PartialText(EdaatOR.Biller_Invoice_Delete,"Create Invoice");
+        	Thread.sleep(2000);	    	
+	    	switchTonextwindow();
+        	Thread.sleep(1000);	    
+			if (getText(EdaatOR.Biller_CreateInvoice_Page).equals("Create Invoice")) {
+	    		Log.ReportEvent("PASS","'Create Invoice' Page is Loaded Successfully");
+	    	String iType=testdatamap.get("InvoiceType").toString();
+				selectSubbiller(EdaatOR.Biller_Invoice_SBilIdList,testdatamap);
+				Thread.sleep(2000);
+				WebClickUsingJS(EdaatOR.Biller_Invoice_TemplateList);
+	        	Thread.sleep(1000);	    	
+				WebSelectByVisibleText(EdaatOR.Biller_Invoice_TemplateList,testdatamap.get("TemplateName").toString());
+	        	Thread.sleep(1000);	    	
+				addProductDetails(testdatamap);
+				enterInvoicDetails(testdatamap);
+				enterInvoiceCaseType(testdatamap);
+	        	Thread.sleep(1000);	    	
+				int val=getInvoiceCountAdd();
+	        	Thread.sleep(1000);	    	
+				if(CheckElementExists(EdaatOR.Biller_Invoice_AfteraddInvoice+"["+val+"]/td[10]")==true){
+					Log.ReportEvent("PASS", "Create Corporate Client Invoice is Successful");
+				}
+				else{
+					Log.ReportEvent("FAIL", "Create Corporate Client Invoice is not Successful");
+					takeScreenShot();
+					driver.quit();
+					Assert.fail();
+				}
+			}
+			else {
+	    		Log.ReportEvent("Fail","'Create Invoice' Page is not Loaded Successfully");
+	    		takeScreenShot();
+	    		driver.quit();
+				Assert.fail();
+			}
+		}
+		catch(Exception e){
+			Log.ReportEvent("FAIL", "Create Corporate Client Invoice is not Successful");
+			takeScreenShot();
+			driver.quit();
+			Assert.fail();
+		}
+	}
+	
+	// Function Summary : method to verify Add Corporate client page fields error messages
+	// Parameter Summary :
+	// CorporateName,CRNumber,PersonName,PersonID,MobileNo,Email,ClientRefno,ExpectedResult
+	public void VerifyAddCorpClietErrorMsg(String CorporateName, String CRNumber, String PersonName, String PersonID,
+			String MobileNo, String Email, String ClientRefno, String ExpectedResult, Log log) throws Exception {
+		{
+			try {
+				NavigateToCorporateClientsList(log);
+				NavigateToAddCorporateClients(log);
+				WebEdit(EdaatOR.Biller_Corporateclient_name, CorporateName);
+				WebEdit(EdaatOR.Biller_Corporateclient_Rno, CRNumber);
+				WebClick(EdaatOR.Biller_Corporateclient_lang);
+				WebEdit(EdaatOR.Biller_Corporateclient_commissioner, PersonName);
+				WebEdit(EdaatOR.Biller_Corporateclient_commissionerID, PersonID);
+				WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Email, Email);
+				WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Mobile, MobileNo);
+				WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Crno, ClientRefno);
+				Thread.sleep(2000);
+				WebClickUsingJS(EdaatOR.Biller_Individualclient_Add);
+				Thread.sleep(50);
+				if (ExpectedResult.equals(getText(EdaatOR.Biller_AlertMsg))) {
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_AlertMsg));
+					log.ReportEvent("PASS","Validate Corporate 'Client Reference Number is Already Exists' Alert Message is Successful");
+				} else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredFieldsErrMsg))) {
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredCorpNameErrMsg));
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredCRNoErrMsg));
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredAuthNameErrMsg));
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredAuthIDErrMsg));
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredAuthMobileNoErrMsg));
+					log.ReportEvent("PASS", "Validate Required Fields Error Message is Successful");
+				} else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredCRNoErrMsg))) {
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredCRNoErrMsg));
+					log.ReportEvent("PASS", "Validate CR Number Error Message is Successful");
+				} else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthIDErrMsg))) {
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredAuthIDErrMsg));
+					log.ReportEvent("PASS", "Validate Error Message for Authorized Person ID is Successful");
+				} else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthMobileNoErrMsg))) {
+					VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_RequiredAuthMobileNoErrMsg));
+					log.ReportEvent("PASS", "Validate Error Message for Mobile No is Successful");
+				} else {
+					log.ReportEvent("FAIL", "Validate  Add Corporate Client Page Text Field Error Message is not Successful");
+					takeScreenShot();
+					driver.quit();
+					Assert.fail();
+				}
+			} catch (Exception e) {
+				log.ReportEvent("FAIL", "Validate  Add Corporate Client Page Text Field Error Message is not Successful");
+				takeScreenShot();
+				driver.quit();
+				Assert.fail();
+			}
+		}
+	}
+	
+		
+	//Function Summary  : method to verify Error messages in Edit Corporate client page
+		//Parameter Summary : CorporateName,PersonName,PersonID,MobileNo,Email,ClientRefno,ExpectedResult
+		public void VerifyEditCorpClietErrorMsg(String CorporateName,String PersonName,String PersonID,String MobileNo,String Email,String ClientRefno,String ExpectedResult,Log log) throws InterruptedException{
+		{
+				try {
+
+			    	NavigateToCorporateClientsList(log);
+			    	selectDropdownValue_PartialText(EdaatOR.Biller_Invoice_Delete,"Edit");
+			    	Thread.sleep(2000);
+			    	switchTonextwindow();    	
+			        Thread.sleep(1000);	
+			        if (getText(EdaatOR.Biller_EditCorporateClientData_Page).equals("Edit Corporates Client Data")) {
+			    		log.ReportEvent("PASS","'Edit Corporate Client Data' Page is Loaded Successfully");
+			    	WebClear(EdaatOR.Biller_Corporateclient_name);
+			        Thread.sleep(1000);	
+			    	WebEdit(EdaatOR.Biller_Corporateclient_name,CorporateName);
+			    	WebClear(EdaatOR.Biller_Corporateclient_commissioner);
+		  	        Thread.sleep(1000);	
+		        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner,PersonName);
+			        Thread.sleep(1000);	
+			    	WebClear(EdaatOR.Biller_Corporateclient_commissionerID);
+		        	WebEdit(EdaatOR.Biller_Corporateclient_commissionerID,PersonID);
+		        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Mobile);
+		        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Mobile,MobileNo);
+			        Thread.sleep(1000);	
+		        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Email);
+			        Thread.sleep(1000);	
+		        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Email,Email);
+			        Thread.sleep(1000);	
+		        	WebClear(EdaatOR.Biller_Corporateclient_commissioner_Crno);
+			        Thread.sleep(1000);	
+		        	WebEdit(EdaatOR.Biller_Corporateclient_commissioner_Crno,ClientRefno);
+		        	Thread.sleep(2000);
+		        	WebClickUsingJS(EdaatOR.Biller_Corporateclient_Save);
+			        					
+					if(ExpectedResult.equals(getText(EdaatOR.Biller_ClientRefExistsAlertMsg))) {
+						log.ReportEvent("PASS", "Validate Client Reference Number Alert Message is Successful");
+					}
+					else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredCorpNameErrMsg)) && ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthNameErrMsg)) && ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthIDErrMsg)) && ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthMobileNoErrMsg))){
+						log.ReportEvent("PASS", "Validate Corporate Client Page Required Fields Error Message is Successful");
+					}
+					else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthIDErrMsg))){	
+						log.ReportEvent("PASS", "Validate Authorized Person ID Field Error Message is  Successful");
+					}
+					else if (ExpectedResult.equals(getText(EdaatOR.Biller_RequiredAuthMobileNoErrMsg))){	
+						log.ReportEvent("PASS", "Validate Mobile Number Field Error Message is Successful" );						
+					}
+					else {
+						log.ReportEvent("FAIL", "Validate Edit Corporate Data Page Fields Error Message is not Successful" );
+						takeScreenShot();
+						driver.quit();
+						Assert.fail();
+						}
+	 				} 
+		
+				else {
+		    		log.ReportEvent("FAIL","'Edit Corporate Client Data' Page is not Loaded Successfully");
+					takeScreenShot();
+					driver.quit();
+					Assert.fail();
+				}
+			        }
+			      
+					catch (Exception e) {
+						log.ReportEvent("FAIL", "Validate Edit Corporate Data Page Fields Error Message is not Successful" );
+						takeScreenShot();
+						driver.quit();
+						Assert.fail();
+						}
+				}
+		}	
+	
+		
+		//Function Summary  : method to verify Error messages in delete Corporate client page
+		//Parameter Summary : ExpectedResult
+		public void VerifyDeleteCorpClietErrorMsg(String ExpectedResult) throws InterruptedException{
+			{
+				try {
+					WebClickUsingJS(EdaatOR.Biller_Add_Companyclient);	
+					Thread.sleep(500);
+					selectDropdownValue_PartialText(EdaatOR.Biller_Invoice_Delete,"Delete");
+					Thread.sleep(500);
+					WebClick(EdaatOR.Biller_Invoice_Deletebtn);
+					this.takeScreenShot();
+					if (ExistsCheck(EdaatOR.Biller_DeleteClientErrMsg)){	
+						VerifyValue1(ExpectedResult, getText(EdaatOR.Biller_DeleteClientErrMsg));			
+						test.log(Status.PASS, "Corporate Client delete ErrorMessage Exists" + driver.getTitle() + " *Delete Error Message Exists * ");
+					}
+	 				else {
+						test.log(Status.FAIL, "No error Exists" + driver.getTitle() + " * No error Exists * ");
+					}
+				}
+				catch (Exception e) {
+					//test.log(Status.FAIL,WARNINGFontColorPrefix + " AdminIndividualClient Page - Add Individual Client failed - unable to Enter" + e+ WARNINGFontColorSuffix);
+					test.log(Status.FAIL,WARNINGFontColorPrefix + "Error found at class: " + this.getClass().getName() + " Code line Number: "+ new Exception().getStackTrace()[0].getLineNumber() + "!" + WARNINGFontColorSuffix);
+					throw new NoSuchElementException("Delete Corporate Client "+ "Page - Not Loaded");
+				}
+	 		}
+		}   
+}
